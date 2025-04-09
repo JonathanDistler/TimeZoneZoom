@@ -1,0 +1,2 @@
+print(get_local_time("New York", "USA"))
+# Output: 2025-04-08 14:25:30 EDT-0400

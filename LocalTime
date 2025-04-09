@@ -1,0 +1,28 @@
+pip install pytz timezonefinder geopy
+from datetime import datetime
+from geopy.geocoders import Nominatim
+from timezonefinder import TimezoneFinder
+import pytz
+
+def get_local_time(state: str, country: str) -> str:
+    try:
+        # Get coordinates
+        geolocator = Nominatim(user_agent="timezone_lookup")
+        location = geolocator.geocode(f"{state}, {country}")
+        if not location:
+            return "Location not found."
+
+        # Find timezone
+        tf = TimezoneFinder()
+        timezone_str = tf.timezone_at(lng=location.longitude, lat=location.latitude)
+        if not timezone_str:
+            return "Timezone not found."
+
+        # Get local time
+        timezone = pytz.timezone(timezone_str)
+        local_time = datetime.now(timezone)
+
+        return local_time.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+    
+    except Exception as e:
+        return f"Error: {str(e)}"

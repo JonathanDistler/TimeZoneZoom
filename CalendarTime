@@ -1,0 +1,37 @@
+import datetime
+
+def select_date_and_time():
+    # Select date
+    while True:
+        try:
+            date_input = input("Enter a date (YYYY-MM-DD): ")
+            selected_date = datetime.datetime.strptime(date_input, "%Y-%m-%d").date()
+            break
+        except ValueError:
+            print("Invalid date format. Try again.")
+
+    # Select hour
+    while True:
+        try:
+            hour = int(input("Enter hour (0-23): "))
+            if 0 <= hour <= 23:
+                break
+            else:
+                print("Hour must be between 0 and 23.")
+        except ValueError:
+            print("Invalid hour.")
+
+    # Select minute
+    while True:
+        try:
+            minute = int(input("Enter minute (0-59): "))
+            if 0 <= minute <= 59:
+                break
+            else:
+                print("Minute must be between 0 and 59.")
+        except ValueError:
+            print("Invalid minute.")
+
+    # Combine into datetime
+    selected_datetime = datetime.datetime.combine(selected_date, datetime.time(hour, minute))
+    return selected_datetime

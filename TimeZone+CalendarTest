@@ -1,0 +1,26 @@
+def test_time_zone_conversion():
+    print("===== TIME ZONE CONVERSION TEST =====")
+    
+    # Get input time
+    print("\nSelect date and time:")
+    selected_datetime = select_date_and_time()
+    time_str = selected_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Get 'from' location
+    print("\nFrom location:")
+    from_state = input("Enter the 'from' state: ")
+    from_country = input("Enter the 'from' country: ")
+
+    # Get 'to' location
+    print("\nTo location:")
+    to_state = input("Enter the 'to' state: ")
+    to_country = input("Enter the 'to' country: ")
+
+    # Convert
+    result = convert_time_between_zones(time_str, from_state, from_country, to_state, to_country)
+
+    print("\n===== CONVERSION RESULT =====")
+    print(f"Original time: {time_str}")
+    print(f"Converted time: {result}")
+
+test_time_zone_conversion()

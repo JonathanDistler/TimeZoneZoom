@@ -1,0 +1,3 @@
+# Convert 2 PM on April 8, 2025 from New York, USA to Berlin, Germany
+print(convert_time_between_zones("2025-04-08 14:00:00", "New York", "USA", "Berlin", "Germany"))
+# Output: 2025-04-08 20:00:00 CEST+0200

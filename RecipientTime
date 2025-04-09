@@ -1,0 +1,42 @@
+pip install pytz timezonefinder geopy
+from datetime import datetime
+from geopy.geocoders import Nominatim
+from timezonefinder import TimezoneFinder
+import pytz
+
+def get_timezone(state: str, country: str) -> str:
+    geolocator = Nominatim(user_agent="timezone_converter")
+    location = geolocator.geocode(f"{state}, {country}")
+    if not location:
+        raise ValueError("Location not found.")
+    
+    tf = TimezoneFinder()
+    timezone_str = tf.timezone_at(lng=location.longitude, lat=location.latitude)
+    if not timezone_str:
+        raise ValueError("Timezone not found.")
+    
+    return timezone_str
+
+def convert_time_between_zones(time_str: str, 
+                                from_state: str, from_country: str, 
+                                to_state: str, to_country: str,
+                                time_format: str = "%Y-%m-%d %H:%M:%S") -> str:
+    try:
+        # Get time zones
+        from_tz_str = get_timezone(from_state, from_country)
+        to_tz_str = get_timezone(to_state, to_country)
+        
+        from_tz = pytz.timezone(from_tz_str)
+        to_tz = pytz.timezone(to_tz_str)
+
+        # Parse the input time and localize
+        naive_time = datetime.strptime(time_str, time_format)
+        from_time = from_tz.localize(naive_time)
+
+        # Convert to target time zone
+        to_time = from_time.astimezone(to_tz)
+
+        return to_time.strftime(f"{time_format} %Z%z")
+
+    except Exception as e:
+        return f"Error: {str(e)}"
